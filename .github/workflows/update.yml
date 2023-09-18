@@ -1,0 +1,33 @@
+name: Update on new image
+
+on:
+  push:
+    branches:
+      [ "main" ]
+  schedule:
+    - cron: '*/30 * * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Push to Dockerfile
+      run: |
+        OWNER=${{ github.repository_owner }}
+        REPO=${OWNER,,}/kassiopeia/full
+
+        DIGEST=$(docker manifest inspect --verbose ghcr.io/${REPO}:main | jq -r .Descriptor.digest)
+    
+        echo "FROM ghcr.io/${REPO}@${DIGEST}" > Dockerfile
+
+        if [[ `git status --porcelain` ]]; then
+          git add .
+          git config user.name "GitHub CI"
+          git config user.email "<>"
+          git commit -m "Automatic update by GitHub CI"
+          git push origin main
+        fi
