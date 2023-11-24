@@ -1,1 +1,1 @@
-FROM ghcr.io/katrin-experiment/kassiopeia/full@sha256:4ac49486d44a63889b1a7b8ea562fe6c65f63f34608cdf3382847628a37e1f9c
+FROM ghcr.io/katrin-experiment/kassiopeia/full@sha256:d4d658539668cdf9988563e409482dc3e2a2c4c0e86cd8d73d46e1a92a833add
